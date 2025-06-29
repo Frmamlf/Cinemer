@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build APK
 
 on:
   push:
@@ -33,45 +33,21 @@ jobs:
       working-directory: ./mobile
       run: flutter pub get
       
-    - name: Analyze code
-      working-directory: ./mobile
-      run: flutter analyze --no-fatal-infos
-      
     - name: Create missing asset directories
       working-directory: ./mobile
       run: |
         mkdir -p assets/images
         mkdir -p assets/animations
         
-    - name: Build APK (Debug)
+    - name: Build APK
       working-directory: ./mobile
-      run: flutter build apk --debug
+      run: flutter build apk
       
-    - name: Build APK (Release)
-      working-directory: ./mobile
-      run: flutter build apk --release
-      
-    - name: Build App Bundle (Release)
-      working-directory: ./mobile
-      run: flutter build appbundle --release
-      
-    - name: Upload Debug APK
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: cinemer-debug-apk
-        path: mobile/build/app/outputs/flutter-apk/app-debug.apk
-        
-    - name: Upload Release APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: cinemer-release-apk
+        name: cinemer-apk
         path: mobile/build/app/outputs/flutter-apk/app-release.apk
-        
-    - name: Upload Release App Bundle
-      uses: actions/upload-artifact@v4
-      with:
-        name: cinemer-release-aab
-        path: mobile/build/app/outputs/bundle/release/app-release.aab
 
   release:
     needs: build
@@ -82,31 +58,22 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Download Release APK
+    - name: Download APK
       uses: actions/download-artifact@v4
       with:
-        name: cinemer-release-apk
-        path: ./release-artifacts
-        
-    - name: Download Release App Bundle
-      uses: actions/download-artifact@v4
-      with:
-        name: cinemer-release-aab
+        name: cinemer-apk
         path: ./release-artifacts
         
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          ./release-artifacts/app-release.apk
-          ./release-artifacts/app-release.aab
+        files: ./release-artifacts/app-release.apk
         name: Cinemer ${{ github.ref_name }}
         body: |
           # Cinemer - Movie, TV Shows & Anime App
           
-          ## 📱 Download Options
-          - **APK**: Universal Android app file (install directly)
-          - **AAB**: Android App Bundle (for Google Play Store)
+          ## 📱 Download
+          Download the APK file below and install it on your Android device.
           
           ## ✨ Features
           - Browse popular, top-rated, and upcoming movies
@@ -115,9 +82,6 @@ jobs:
           - User authentication with TMDB
           - Material You design with adaptive themes
           - Smooth animations and modern UI
-          
-          ## 🔧 API Configuration
-          This app uses TMDB (The Movie Database) API. The app comes pre-configured with a valid API key for immediate use.
           
           ## 📋 Installation
           1. Download the APK file
