@@ -115,11 +115,35 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> loginAsGuest() async {
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final session = await _apiService.createGuestSession();
+
+      // Save session
+      await _saveSession(session);
+
+      state = state.copyWith(
+        isLoading: false,
+        isAuthenticated: true,
+        session: session,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+    }
+  }
+
   Future<void> logout() async {
     state = state.copyWith(isLoading: true);
 
     try {
-      await _apiService.logout();
+      if (state.session != null) {
+        await _apiService.logout(sessionId: state.session!.sessionId);
+      }
     } catch (e) {
       // Ignore logout errors
     }
@@ -164,4 +188,9 @@ final currentUserProvider = Provider<TMDBUser?>((ref) {
 
 final userApiKeyProvider = Provider<String?>((ref) {
   return ref.watch(authProvider).session?.apiKey;
+});
+
+final isGuestSessionProvider = Provider<bool>((ref) {
+  final session = ref.watch(authProvider).session;
+  return session?.sessionId.startsWith('guest_session_') ?? false;
 });

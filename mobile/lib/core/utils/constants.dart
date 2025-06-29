@@ -1,14 +1,12 @@
 class AppConstants {
   static const String appName = 'Cinemer';
   
-  // API Configuration
-  static const String _devApiUrl = 'http://localhost:3000/api';
-  static const String _prodApiUrl = 'https://your-production-api.com/api'; // Update with your production URL
+  // TMDB API Configuration
+  static const String tmdbApiKey = 'YOUR_TMDB_API_KEY'; // Add your TMDB API key here
+  static const String tmdbBaseUrl = 'https://api.themoviedb.org/3';
+  static const String tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/w500';
   
   static String get apiBaseUrl {
-    const bool isProduction = bool.fromEnvironment('dart.vm.product');
-    return isProduction ? _prodApiUrl : _devApiUrl;
+    return tmdbBaseUrl; // Always use TMDB now
   }
-  
-  static const String tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/w500';
 }

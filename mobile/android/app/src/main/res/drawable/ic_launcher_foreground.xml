@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Material Symbols view_object_track icon -->
+    <group android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:translateX="16.2"
+        android:translateY="16.2">
+        <path android:fillColor="@android:color/system_accent1_700"
+            android:pathData="M4,18V6h16v12H4ZM6,16h12V8H6v8ZM8,14h8v-4H8v4ZM2,22V4h2v16h16v2H2Z"/>
+    </group>
+</vector>

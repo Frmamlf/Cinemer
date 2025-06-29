@@ -103,11 +103,22 @@ class AuthSession {
   });
 
   factory AuthSession.fromJson(Map<String, dynamic> json) {
-    return AuthSession(
-      sessionId: json['session']['sessionId'],
-      apiKey: json['session']['apiKey'],
-      user: TMDBUser.fromJson(json['user']),
-    );
+    // Handle both old format and new TMDB format
+    if (json.containsKey('session') && json.containsKey('user')) {
+      // Old format
+      return AuthSession(
+        sessionId: json['session']['sessionId'],
+        apiKey: json['session']['apiKey'],
+        user: TMDBUser.fromJson(json['user']),
+      );
+    } else {
+      // New simplified format
+      return AuthSession(
+        sessionId: json['sessionId'] ?? json['guest_session_id'],
+        apiKey: json['apiKey'],
+        user: TMDBUser.fromJson(json['user']),
+      );
+    }
   }
 
   Map<String, dynamic> toJson() {

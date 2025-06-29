@@ -14,11 +14,12 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> 
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  final _usernameEmailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   
   bool _obscurePassword = true;
   bool _isLogging = false;
+  bool _isGuestLogin = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -45,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void dispose() {
-    _usernameEmailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     _animationController.dispose();
     super.dispose();
@@ -60,14 +61,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
     try {
       final authNotifier = ref.read(authProvider.notifier);
-      final input = _usernameEmailController.text.trim();
-      
-      // Determine if input is email or username
-      final isEmail = input.contains('@');
+      final username = _usernameController.text.trim();
       
       await authNotifier.login(
-        username: isEmail ? null : input,
-        email: isEmail ? input : null,
+        username: username,
+        email: null, // TMDB uses username for authentication
         password: _passwordController.text,
       );
       
@@ -93,6 +91,42 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       if (mounted) {
         setState(() {
           _isLogging = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loginAsGuest() async {
+    setState(() {
+      _isGuestLogin = true;
+    });
+
+    try {
+      final authNotifier = ref.read(authProvider.notifier);
+      await authNotifier.loginAsGuest();
+      
+      // Sync user library data immediately after login
+      if (mounted) {
+        final libraryNotifier = ref.read(libraryProvider.notifier);
+        libraryNotifier.syncAllData(); // Fast background sync
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Guest login failed: ${e.toString()}'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isGuestLogin = false;
         });
       }
     }
@@ -189,7 +223,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           const SizedBox(height: 8),
                           
                           Text(
-                            'Sign in to discover movies, TV shows, and anime',
+                            'Sign in to access your TMDB account',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                               height: 1.4,
@@ -198,12 +232,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           
                           const SizedBox(height: 32),
                           
-                          // Username or Email Field
+                          // Username Field
                           TextFormField(
-                            controller: _usernameEmailController,
+                            controller: _usernameController,
                             decoration: InputDecoration(
-                              labelText: 'Username or Email',
-                              hintText: 'Enter your TMDB username or email',
+                              labelText: 'TMDB Username',
+                              hintText: 'Enter your TMDB username',
                               prefixIcon: Icon(
                                 Icons.person_outline,
                                 color: colorScheme.onSurfaceVariant,
@@ -232,10 +266,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
-                                return 'Username or email is required';
+                                return 'TMDB username is required';
                               }
                               if (value.length < 3) {
-                                return 'Username or email must be at least 3 characters';
+                                return 'Username must be at least 3 characters';
                               }
                               return null;
                             },
@@ -335,7 +369,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           
                           // Sign In Button - Material 3 Expressive Style
                           FilledButton(
-                            onPressed: _isLogging ? null : _login,
+                            onPressed: _isLogging || _isGuestLogin ? null : _login,
                             style: FilledButton.styleFrom(
                               minimumSize: const Size(double.infinity, 56),
                               shape: RoundedRectangleBorder(
@@ -356,11 +390,87 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                     ),
                                   )
                                 : Text(
-                                    'Sign In',
+                                    'Sign In to TMDB',
                                     style: theme.textTheme.labelLarge?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: colorScheme.onPrimary,
                                     ),
+                                  ),
+                          ),
+                          
+                          const SizedBox(height: 16),
+                          
+                          // OR Divider
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  color: colorScheme.outlineVariant,
+                                  height: 1,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  'OR',
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  color: colorScheme.outlineVariant,
+                                  height: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                          
+                          const SizedBox(height: 16),
+                          
+                          // Guest Mode Button
+                          OutlinedButton(
+                            onPressed: _isLogging || _isGuestLogin ? null : _loginAsGuest,
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 56),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              side: BorderSide(
+                                color: colorScheme.outline,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: _isGuestLogin
+                                ? SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        colorScheme.primary,
+                                      ),
+                                    ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.person_outline,
+                                        size: 20,
+                                        color: colorScheme.primary,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Continue as Guest',
+                                        style: theme.textTheme.labelLarge?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: colorScheme.primary,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                           ),
                         ],
@@ -368,104 +478,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     ),
                   ),
                 ),
-                
-                const SizedBox(height: 40),
-                
-                // Side Action Buttons (like in the design)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // Accessibility Button
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        color: colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.circular(36),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          // Handle accessibility settings
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Accessibility options')),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.accessibility_new,
-                          color: colorScheme.onSecondaryContainer,
-                          size: 28,
-                        ),
-                      ),
-                    ),
-                    
-                    // Language/Region Button
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        color: colorScheme.tertiaryContainer,
-                        borderRadius: BorderRadius.circular(36),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          // Handle language/region settings
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Language & Region')),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.language,
-                          color: colorScheme.onTertiaryContainer,
-                          size: 28,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 40),
-                
-                // Help Text with Material 3 styling
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerLow,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Need a TMDB API key?',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 4),
-                      GestureDetector(
-                        onTap: () {
-                          // Open TMDB website
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Visit themoviedb.org to get your API key'),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Get one from themoviedb.org',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                
                 const SizedBox(height: 20),
               ],
             ),
