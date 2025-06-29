@@ -42,7 +42,7 @@ dependencies:
   
   # Video Player
   video_player: ^2.9.1
-  chewie: ^1.8.5
+  chewie: ^1.10.0
   youtube_explode_dart: ^2.2.0
   path_provider: ^2.1.2
   
