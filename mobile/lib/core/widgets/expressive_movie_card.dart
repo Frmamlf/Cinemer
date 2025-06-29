@@ -55,10 +55,10 @@ class ExpressiveMovieCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           // M3 Standard: State layer colors
-          splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.12),
-          highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.08),
-          hoverColor: Theme.of(context).colorScheme.primary.withOpacity(0.08),
-          focusColor: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+          splashColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+          highlightColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+          hoverColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+          focusColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
           child: Stack(
             children: [
               // Main image
@@ -96,8 +96,8 @@ class ExpressiveMovieCard extends StatelessWidget {
                       colors: [
                         Colors.transparent,
                         Colors.transparent,
-                        Theme.of(context).colorScheme.scrim.withOpacity(0.4),
-                        Theme.of(context).colorScheme.scrim.withOpacity(0.7),
+                        Theme.of(context).colorScheme.scrim.withValues(alpha: 0.4),
+                        Theme.of(context).colorScheme.scrim.withValues(alpha: 0.7),
                       ],
                       stops: const [0.0, 0.5, 0.8, 1.0],
                     ),
@@ -153,7 +153,7 @@ class ExpressiveMovieCard extends StatelessWidget {
                           Shadow(
                             offset: const Offset(0, 1),
                             blurRadius: 2,
-                            color: Theme.of(context).colorScheme.scrim.withOpacity(0.6),
+                            color: Theme.of(context).colorScheme.scrim.withValues(alpha: 0.6),
                           ),
                         ],
                       ),
@@ -171,7 +171,7 @@ class ExpressiveMovieCard extends StatelessWidget {
                             Shadow(
                               offset: const Offset(0, 1),
                               blurRadius: 2,
-                              color: Theme.of(context).colorScheme.scrim.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.scrim.withValues(alpha: 0.6),
                             ),
                           ],
                         ),
@@ -272,8 +272,8 @@ class ExpressiveHeroCard extends StatelessWidget {
                       colors: [
                         Colors.transparent,
                         Colors.transparent,
-                        Theme.of(context).colorScheme.scrim.withOpacity(0.4),
-                        Theme.of(context).colorScheme.scrim.withOpacity(0.9),
+                        Theme.of(context).colorScheme.scrim.withValues(alpha: 0.4),
+                        Theme.of(context).colorScheme.scrim.withValues(alpha: 0.9),
                       ],
                       stops: const [0.0, 0.3, 0.7, 1.0],
                     ),
@@ -297,7 +297,7 @@ class ExpressiveHeroCard extends StatelessWidget {
                         children: genres!.take(3).map((genre) => Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.9),
+                            color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.9),
                             borderRadius: BorderRadius.circular(16), // Expressive pill shape
                           ),
                           child: Text(
@@ -326,7 +326,7 @@ class ExpressiveHeroCard extends StatelessWidget {
                                 Shadow(
                                   offset: const Offset(0, 2),
                                   blurRadius: 4,
-                                  color: Colors.black.withOpacity(0.6),
+                                  color: Colors.black.withValues(alpha: 0.6),
                                 ),
                               ],
                             ),
@@ -343,7 +343,7 @@ class ExpressiveHeroCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Theme.of(context).colorScheme.shadow.withOpacity(0.3),
+                                  color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.3),
                                   blurRadius: 6,
                                   offset: const Offset(0, 2),
                                 ),
@@ -378,14 +378,14 @@ class ExpressiveHeroCard extends StatelessWidget {
                       Text(
                         description!,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           fontWeight: FontWeight.w400,
                           height: 1.4,
                           shadows: [
                             Shadow(
                               offset: const Offset(0, 1),
                               blurRadius: 2,
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withValues(alpha: 0.5),
                             ),
                           ],
                         ),

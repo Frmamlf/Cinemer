@@ -32,8 +32,8 @@ class TrailerButton extends ConsumerWidget {
         // M3 Standard: Filled button styling
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        disabledBackgroundColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
-        disabledForegroundColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
+        disabledBackgroundColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
+        disabledForegroundColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.38),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // M3 Standard: 20dp for buttons
         ),

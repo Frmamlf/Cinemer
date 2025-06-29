@@ -289,14 +289,14 @@ class ThemeSettingsScreen extends ConsumerWidget {
   Widget _buildColorPalette(BuildContext context, WidgetRef ref) {
     final themePreferences = ref.watch(themeProvider);
     final colorOptions = [
-      {'name': 'Blue', 'color': Colors.blue, 'seed': Colors.blue.value},
-      {'name': 'Green', 'color': Colors.green, 'seed': Colors.green.value},
-      {'name': 'Purple', 'color': Colors.purple, 'seed': Colors.purple.value},
-      {'name': 'Orange', 'color': Colors.orange, 'seed': Colors.orange.value},
-      {'name': 'Red', 'color': Colors.red, 'seed': Colors.red.value},
-      {'name': 'Teal', 'color': Colors.teal, 'seed': Colors.teal.value},
-      {'name': 'Pink', 'color': Colors.pink, 'seed': Colors.pink.value},
-      {'name': 'Indigo', 'color': Colors.indigo, 'seed': Colors.indigo.value},
+      {'name': 'Blue', 'color': Colors.blue, 'seed': Colors.blue.toARGB32()},
+      {'name': 'Green', 'color': Colors.green, 'seed': Colors.green.toARGB32()},
+      {'name': 'Purple', 'color': Colors.purple, 'seed': Colors.purple.toARGB32()},
+      {'name': 'Orange', 'color': Colors.orange, 'seed': Colors.orange.toARGB32()},
+      {'name': 'Red', 'color': Colors.red, 'seed': Colors.red.toARGB32()},
+      {'name': 'Teal', 'color': Colors.teal, 'seed': Colors.teal.toARGB32()},
+      {'name': 'Pink', 'color': Colors.pink, 'seed': Colors.pink.toARGB32()},
+      {'name': 'Indigo', 'color': Colors.indigo, 'seed': Colors.indigo.toARGB32()},
     ];
 
     return Column(
@@ -326,7 +326,7 @@ class ThemeSettingsScreen extends ConsumerWidget {
           runSpacing: 12,
           children: colorOptions.map((option) {
             final color = option['color'] as Color;
-            final isSelected = themePreferences.seedColor?.value == color.value;
+            final isSelected = themePreferences.seedColor?.toARGB32() == color.toARGB32();
             return GestureDetector(
               onTap: () => _applySeedColor(context, ref, color, option['name'] as String),
               child: AnimatedContainer(
@@ -342,12 +342,12 @@ class ThemeSettingsScreen extends ConsumerWidget {
                           width: 3,
                         )
                       : Border.all(
-                          color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                           width: 1,
                         ),
                   boxShadow: [
                     BoxShadow(
-                      color: color.withOpacity(0.3),
+                      color: color.withValues(alpha: 0.3),
                       blurRadius: 8,
                       spreadRadius: isSelected ? 2 : 0,
                     ),
@@ -471,7 +471,7 @@ class ThemeSettingsScreen extends ConsumerWidget {
             color: Theme.of(context).colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
             ),
           ),
           child: Column(
@@ -567,7 +567,7 @@ class _CustomColorPickerDialogState extends State<_CustomColorPickerDialog> {
               color: selectedColor,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.5),
               ),
             ),
             child: Center(
@@ -594,7 +594,7 @@ class _CustomColorPickerDialogState extends State<_CustomColorPickerDialog> {
               Colors.yellow, Colors.amber, Colors.orange, Colors.deepOrange,
               Colors.brown, Colors.grey, Colors.blueGrey,
             ].map((color) {
-              final isSelected = selectedColor.value == color.value;
+              final isSelected = selectedColor.toARGB32() == color.toARGB32();
               return GestureDetector(
                 onTap: () {
                   setState(() {
@@ -613,13 +613,13 @@ class _CustomColorPickerDialogState extends State<_CustomColorPickerDialog> {
                             width: 3,
                           )
                         : Border.all(
-                            color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+                            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
                             width: 1,
                           ),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: color.withOpacity(0.5),
+                              color: color.withValues(alpha: 0.5),
                               blurRadius: 8,
                               spreadRadius: 2,
                             ),

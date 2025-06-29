@@ -48,7 +48,7 @@ class ThemePreferences {
       'themeVariant': themeVariant.index,
       'useDynamicColor': useDynamicColor,
       'useExpressiveComponents': useExpressiveComponents,
-      'seedColor': seedColor?.value,
+      'seedColor': seedColor?.toARGB32(),
     };
   }
 

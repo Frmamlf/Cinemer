@@ -121,7 +121,7 @@ class AppTheme {
       ),
 
       // Material 3 Expressive Cards
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: isHighContrast ? 0 : 1,
         shadowColor: colorScheme.shadow,
         surfaceTintColor: colorScheme.surfaceTint,
@@ -191,7 +191,7 @@ class AppTheme {
       // Material 3 Expressive Input Fields
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20), // Expressive radius
           borderSide: BorderSide.none,
@@ -225,7 +225,7 @@ class AppTheme {
       ),
 
       // Material 3 Dialog
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: colorScheme.surface,
         elevation: isHighContrast ? 0 : 6,
         shadowColor: colorScheme.shadow,

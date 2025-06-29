@@ -156,8 +156,8 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
         materialProgressColors: ChewieProgressColors(
           playedColor: colorScheme.primary, // M3: Primary for played content
           handleColor: colorScheme.primary, // M3: Primary for handle
-          backgroundColor: colorScheme.outline.withOpacity(0.38), // M3: Outline at 38% opacity for track
-          bufferedColor: colorScheme.primaryContainer.withOpacity(0.5), // M3: Primary container for buffered
+          backgroundColor: colorScheme.outline.withValues(alpha: 0.38), // M3: Outline at 38% opacity for track
+          bufferedColor: colorScheme.primaryContainer.withValues(alpha: 0.5), // M3: Primary container for buffered
         ),
         placeholder: Container(
           color: colorScheme.surfaceContainerHighest,
@@ -325,7 +325,7 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -398,10 +398,10 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.black.withOpacity(0.6),
+            Colors.black.withValues(alpha: 0.6),
             Colors.transparent,
             Colors.transparent,
-            Colors.black.withOpacity(0.6),
+            Colors.black.withValues(alpha: 0.6),
           ],
           stops: const [0, 0.15, 0.85, 1],
         ),
@@ -898,7 +898,7 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -939,7 +939,7 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -981,7 +981,7 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -1015,7 +1015,7 @@ class _CineMaterialVideoPlayerState extends State<CineMaterialVideoPlayer>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(

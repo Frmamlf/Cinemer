@@ -35,7 +35,10 @@ class TMDBService {
         }
         catch (error) {
             console.error(`TMDB API error for ${endpoint}:`, error);
-            throw new Error(`Failed to fetch data from TMDB`);
+            if (error instanceof Error) {
+                console.error('Error message:', error.message);
+            }
+            throw new Error(`Failed to fetch data from TMDB: ${error}`);
         }
     }
     async getPopularMovies(page = 1) {

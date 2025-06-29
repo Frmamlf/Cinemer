@@ -73,8 +73,8 @@ class CineMaterialLoading {
     required BuildContext context,
   }) {
     return Shimmer.fromColors(
-      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
-      highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+      highlightColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
       child: Container(
         width: width,
         height: height ?? 200,
@@ -94,7 +94,7 @@ class CineMaterialLoading {
   }) {
     return Container(
       color: dimBackground 
-        ? Theme.of(context).colorScheme.scrim.withOpacity(0.5)
+        ? Theme.of(context).colorScheme.scrim.withValues(alpha: 0.5)
         : Colors.transparent,
       child: Center(
         child: Card(
@@ -185,8 +185,8 @@ class CineMaterialLoading {
     required BuildContext context,
   }) {
     return Shimmer.fromColors(
-      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
-      highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+      highlightColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
       child: Container(
         height: height,
         padding: padding ?? const EdgeInsets.all(16),
@@ -238,8 +238,8 @@ class CineMaterialLoading {
     double aspectRatio = 2 / 3,
   }) {
     return Shimmer.fromColors(
-      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
-      highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+      highlightColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
