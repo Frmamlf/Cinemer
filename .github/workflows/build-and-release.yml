@@ -21,17 +21,41 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '17'
+        java-version: '21'
         
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.22.0'
+        flutter-version: '3.32.5'
         channel: 'stable'
+        
+    - name: Verify Flutter and Dart versions
+      working-directory: ./mobile
+      run: |
+        flutter --version
+        dart --version
+        echo "Flutter SDK constraint: >=3.32.0"
+        echo "Dart SDK constraint: >=3.8.0 <4.0.0"
+        
+    - name: Cache Flutter dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+          mobile/.dart_tool
+        key: ${{ runner.os }}-flutter-${{ hashFiles('mobile/pubspec.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-flutter-
         
     - name: Get dependencies
       working-directory: ./mobile
       run: flutter pub get
+      
+    - name: Verify dependencies and analyze code
+      working-directory: ./mobile
+      run: |
+        flutter pub deps
+        flutter analyze
       
     - name: Create missing asset directories
       working-directory: ./mobile
@@ -83,13 +107,18 @@ jobs:
           - Material You design with adaptive themes
           - Smooth animations and modern UI
           
-          ## 📋 Installation
+          ## � Technical Details
+          - Built with Flutter 3.32.5 💙
+          - Dart SDK 3.8.1
+          - Latest package dependencies
+          - Material 3 design system
+          - Android API 21+ support
+          
+          ## �📋 Installation
           1. Download the APK file
           2. Enable "Install from Unknown Sources" in Android settings
           3. Install the APK
           4. Enjoy browsing movies, TV shows, and anime!
-          
-          Built with Flutter 💙
         draft: false
         prerelease: false
       env:
