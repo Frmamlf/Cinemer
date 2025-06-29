@@ -30,6 +30,7 @@ export declare class TMDBAuthService {
     createSession(apiKey: string, requestToken: string): Promise<TMDBSessionResponse>;
     getUserDetails(apiKey: string, sessionId: string): Promise<TMDBUser>;
     validateApiKey(apiKey: string): Promise<boolean>;
+    createGuestSession(apiKey: string): Promise<any>;
 }
 export declare const tmdbAuthService: TMDBAuthService;
 //# sourceMappingURL=authService.d.ts.map

@@ -3,7 +3,7 @@
     "short_name": "mobile",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#ffffff",
+    "background_color": "#F5F5F5",
     "theme_color": "#1976D2",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",

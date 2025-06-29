@@ -100,5 +100,35 @@ router.post('/logout', (req, res) => {
         message: 'Logged out successfully'
     });
 });
+router.post('/guest-session', async (req, res) => {
+    try {
+        const apiKey = process.env.TMDB_API_KEY;
+        if (!apiKey) {
+            res.status(500).json({
+                error: 'TMDB API key not configured'
+            });
+            return;
+        }
+        const guestSession = await authService_1.tmdbAuthService.createGuestSession(apiKey);
+        res.json({
+            success: true,
+            session: {
+                sessionId: guestSession.guest_session_id,
+                apiKey: apiKey
+            },
+            user: {
+                id: 0,
+                username: 'Guest',
+                name: 'Guest User'
+            }
+        });
+    }
+    catch (error) {
+        console.error('Guest session error:', error);
+        res.status(500).json({
+            error: error instanceof Error ? error.message : 'Failed to create guest session'
+        });
+    }
+});
 exports.default = router;
 //# sourceMappingURL=auth.js.map

@@ -6,7 +6,10 @@ class AppConstants {
   static const String tmdbBaseUrl = 'https://api.themoviedb.org/3';
   static const String tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/w500';
   
+  // Backend API Configuration (not used - using TMDB directly)
+  static const String backendBaseUrl = 'http://localhost:3000/api';
+  
   static String get apiBaseUrl {
-    return tmdbBaseUrl; // Always use TMDB now
+    return tmdbBaseUrl; // Use TMDB API directly
   }
 }

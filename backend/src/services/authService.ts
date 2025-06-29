@@ -98,6 +98,18 @@ export class TMDBAuthService {
       return false;
     }
   }
+
+  async createGuestSession(apiKey: string): Promise<any> {
+    try {
+      const response = await axios.get(`${this.baseUrl}/authentication/guest_session/new`, {
+        params: { api_key: apiKey }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('TMDB create guest session error:', error);
+      throw new Error('Failed to create TMDB guest session');
+    }
+  }
 }
 
 export const tmdbAuthService = new TMDBAuthService();
