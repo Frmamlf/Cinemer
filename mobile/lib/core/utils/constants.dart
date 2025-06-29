@@ -2,7 +2,7 @@ class AppConstants {
   static const String appName = 'Cinemer';
   
   // TMDB API Configuration
-  static const String tmdbApiKey = 'YOUR_TMDB_API_KEY'; // Add your TMDB API key here
+  static const String tmdbApiKey = '8e9c7e67d47a5eb566632d281ffbcfe1'; // TMDB API key
   static const String tmdbBaseUrl = 'https://api.themoviedb.org/3';
   static const String tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/w500';
   
