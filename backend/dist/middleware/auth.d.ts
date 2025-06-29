@@ -1,0 +1,7 @@
+import { Request, Response, NextFunction } from 'express';
+export interface AuthenticatedRequest extends Request {
+    userId?: string;
+}
+export declare const extractUserInfo: (req: AuthenticatedRequest, res: Response, next: NextFunction) => void;
+export declare const requireAuth: (req: AuthenticatedRequest, res: Response, next: NextFunction) => void;
+//# sourceMappingURL=auth.d.ts.map
