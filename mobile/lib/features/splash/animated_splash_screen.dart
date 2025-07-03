@@ -20,15 +20,15 @@ class _AnimatedSplashScreenState extends State<AnimatedSplashScreen>
   void initState() {
     super.initState();
     
-    // Icon fill animation controller (outline to filled) - even faster
+    // Icon fill animation controller (outline to filled) - much faster
     _iconController = AnimationController(
-      duration: const Duration(milliseconds: 900), // Faster transition
+      duration: const Duration(milliseconds: 600), // Even faster transition
       vsync: this,
     );
     
     // Fade out animation controller
     _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 600), // Faster fade
+      duration: const Duration(milliseconds: 400), // Faster fade
       vsync: this,
     );
     
@@ -63,14 +63,14 @@ class _AnimatedSplashScreenState extends State<AnimatedSplashScreen>
   }
 
   void _startAnimations() async {
-    // Start with a shorter delay to show the outline version first
+    // Start with minimal delay since native splash already showed
+    await Future.delayed(const Duration(milliseconds: 100));
+    
+    // Start the fill animation (faster transition)
+    _iconController.forward();
+    
+    // Wait less time after animation starts, then begin fade out
     await Future.delayed(const Duration(milliseconds: 200));
-    
-    // Start the fill animation (faster, smoother transition)
-    await _iconController.forward();
-    
-    // Wait a bit after fill completes, then start fade out
-    await Future.delayed(const Duration(milliseconds: 300));
     await _fadeController.forward();
     
     // Navigate to home
